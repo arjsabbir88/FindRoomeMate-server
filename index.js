@@ -34,6 +34,24 @@ async function run() {
             res.send(result)
         })
 
+
+        app.get('/browse-listings', async (req, res) => {
+            const result = await addListingCollection.find().toArray();
+            res.send(result)
+        })
+
+        app.get("/browse-listings/details/:id", async (req, res) => {
+            const id = req.params.id;
+            const newDetailsId = new ObjectId(id);
+
+            try {
+                const knowDetails = await addListingCollection.findOne({ _id: newDetailsId });
+                res.send(knowDetails)
+            } catch (error) {
+                res.send({ error: 'faild to fetch details' });
+            }
+        })
+
         app.post('/roommates-listing', async (req, res) => {
             const newRoommate = req.body;
             console.log(newRoommate)
