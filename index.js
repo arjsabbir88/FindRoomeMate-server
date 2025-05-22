@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 
 const port = process.env.port || 3000;
@@ -30,7 +30,7 @@ async function run() {
         const addListingCollection = client.db('addListing').collection('roommates-listing');
 
         app.get('/roommates-listing', async (req, res) => {
-            const result = await addListingCollection.find().toArray();
+            const result = await addListingCollection.find({ availability: "available" }).limit(6).toArray();
             res.send(result)
         })
 
@@ -39,6 +39,20 @@ async function run() {
             console.log(newRoommate)
             const result = await addListingCollection.insertOne(newRoommate);
             res.send(result)
+        })
+
+        app.get("/roommates-listing/:id", async (req, res) => {
+            const id = req.params.id;
+            const detailsId = new ObjectId(id)
+
+            try {
+                const detailsPost = await addListingCollection.findOne({ _id: detailsId });
+                res.send(detailsPost)
+            } catch (error) {
+                res.send({ error: 'Faild to fetch details post' })
+            }
+            // const result = await addListingCollection.find().toArray();
+            // res.send(result)
         })
 
 
