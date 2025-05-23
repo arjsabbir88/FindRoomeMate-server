@@ -52,6 +52,23 @@ async function run() {
             }
         })
 
+
+        app.get('/my-listing', async (req, res) => {
+            const userEmail = req.query.email;
+
+            if (!userEmail) {
+                return res.status(400).send({ error: "Email is required" });
+            }
+            try {
+                const result = await addListingCollection.find({ email: userEmail }).toArray();
+                res.send(result);
+            }
+            catch {
+                res.send({ error: "Failed to fetch user listing" })
+            }
+            // res.send(result)
+        })
+
         app.post('/roommates-listing', async (req, res) => {
             const newRoommate = req.body;
             console.log(newRoommate)
