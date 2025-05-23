@@ -69,6 +69,72 @@ async function run() {
             // res.send(result)
         })
 
+        app.put('/my-listing/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateData = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: updateData
+            };
+
+            try {
+                const result = await addListingCollection.updateOne(filter, updateDoc);
+                res.send(result);
+            } catch (error) {
+                res.send({ error: 'Faild to update listing' })
+            }
+        })
+
+        app.get('/my-listing/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+
+            try {
+                const listing = await addListingCollection.findOne(filter);
+                if (!listing) {
+                    return res.status(404).send({ error: 'Listing not found' });
+                }
+                res.send(listing);
+            } catch (error) {
+                res.status(500).send({ error: 'Failed to fetch listing by ID' });
+            }
+        });
+
+        app.patch('/details/:id/like', async (req, res) => {
+            const id = req.params.id;
+
+            if (!ObjectId.isValid(id)) {
+                return res.status(400).send({ error: "Invalid ID format" });
+            }
+
+            try {
+                // Find the post first
+                const post = await addListingCollection.findOne({ _id: new ObjectId(id) });
+                if (!post) return res.status(404).send({ error: "Post not found" });
+
+                // If likeCount is string, convert it to number
+                if (typeof post.likeCount === "string") {
+                    await addListingCollection.updateOne(
+                        { _id: new ObjectId(id) },
+                        { $set: { likeCount: parseInt(post.likeCount) || 0 } }
+                    );
+                }
+
+                // Now safely increment
+                const result = await addListingCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $inc: { likeCount: 1 } }
+                );
+
+                res.send(result);
+            } catch (error) {
+                console.error("Error updating like count:", error);
+                res.status(500).send({ error: "Failed to update like count" });
+            }
+        });
+
+
+
         app.post('/roommates-listing', async (req, res) => {
             const newRoommate = req.body;
             console.log(newRoommate)
