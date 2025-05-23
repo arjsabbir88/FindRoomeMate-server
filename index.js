@@ -132,6 +132,38 @@ async function run() {
                 res.status(500).send({ error: "Failed to update like count" });
             }
         });
+        app.patch('/browse-listings/details/:id/like', async (req, res) => {
+            const id = req.params.id;
+
+            if (!ObjectId.isValid(id)) {
+                return res.status(400).send({ error: "Invalid ID format" });
+            }
+
+            try {
+                // Find the post first
+                const post = await addListingCollection.findOne({ _id: new ObjectId(id) });
+                if (!post) return res.status(404).send({ error: "Post not found" });
+
+                // If likeCount is string, convert it to number
+                if (typeof post.likeCount === "string") {
+                    await addListingCollection.updateOne(
+                        { _id: new ObjectId(id) },
+                        { $set: { likeCount: parseInt(post.likeCount) || 0 } }
+                    );
+                }
+
+                // Now safely increment
+                const result = await addListingCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $inc: { likeCount: 1 } }
+                );
+
+                res.send(result);
+            } catch (error) {
+                console.error("Error updating like count:", error);
+                res.status(500).send({ error: "Failed to update like count" });
+            }
+        });
 
 
 
