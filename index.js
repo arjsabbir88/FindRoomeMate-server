@@ -46,6 +46,8 @@ async function run() {
             const id = req.params.id;
             const newDetailsId = new ObjectId(id);
 
+            // console.log(newDetailsId)
+
             try {
                 const knowDetails = await addListingCollection.findOne({ _id: newDetailsId });
                 res.send(knowDetails)
