@@ -22,6 +22,7 @@ const client = new MongoClient(uri, {
     }
 });
 
+// run mongodb database
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
@@ -40,6 +41,7 @@ async function run() {
             res.send(result)
         })
 
+        // get data form browser listing dynamically
         app.get("/browse-listings/details/:id", async (req, res) => {
             const id = req.params.id;
             const newDetailsId = new ObjectId(id);
@@ -52,7 +54,7 @@ async function run() {
             }
         })
 
-
+        // get data form /myListing
         app.get('/my-listing', async (req, res) => {
             const userEmail = req.query.email;
 
