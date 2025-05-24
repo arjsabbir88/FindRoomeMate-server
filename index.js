@@ -108,11 +108,9 @@ async function run() {
             }
 
             try {
-                // Find the post first
                 const post = await addListingCollection.findOne({ _id: new ObjectId(id) });
                 if (!post) return res.status(404).send({ error: "Post not found" });
 
-                // If likeCount is string, convert it to number
                 if (typeof post.likeCount === "string") {
                     await addListingCollection.updateOne(
                         { _id: new ObjectId(id) },
@@ -120,7 +118,6 @@ async function run() {
                     );
                 }
 
-                // Now safely increment
                 const result = await addListingCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $inc: { likeCount: 1 } }
@@ -184,8 +181,6 @@ async function run() {
             } catch (error) {
                 res.send({ error: 'Faild to fetch details post' })
             }
-            // const result = await addListingCollection.find().toArray();
-            // res.send(result)
         })
 
 
