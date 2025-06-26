@@ -37,7 +37,7 @@ This is the backend server for **RoomSync**, a Roommate Finder application. It i
 └── README.md <br/>
 
 
-#Ports
+## Ports
 port=3000
 DB_USER=your_mongodb_user
 DB_PASS=your_mongodb_password
@@ -63,7 +63,7 @@ nodemon server.js
 ```
 
 
-#📡 API Endpoints
+## 📡 API Endpoints
 
 | Method | Endpoint                             | Description                       |
 | ------ | ------------------------------------ | --------------------------------- |
@@ -81,14 +81,14 @@ nodemon server.js
 
 
 
-#📌 Notes <br/>
+## 📌 Notes <br/>
 MongoDB connection is kept open for better performance.<br/>
 You can secure sensitive routes later with Firebase token verification.<br/>
 You may implement additional routes for admin operations.
 
 
 
-#✍️ Author
+## ✍️ Author
 Tariqul Islam Kahn | arjsabbir88
 GitHub: https://github.com/arjsabbir88
 
