@@ -89,6 +89,6 @@ You may implement additional routes for admin operations.
 
 
 ## ✍️ Author
-Tariqul Islam Kahn | arjsabbir88
+Tariqul Islam Kahn | arjsabbir88 <br/>
 GitHub: https://github.com/arjsabbir88
 
