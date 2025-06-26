@@ -81,7 +81,7 @@ nodemon server.js
 
 
 
-📌 Notes
+#📌 Notes
 MongoDB connection is kept open for better performance.<br/>
 You can secure sensitive routes later with Firebase token verification.<br/>
 You may implement additional routes for admin operations.
