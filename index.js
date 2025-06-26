@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const addListingCollection = client
       .db("addListing")
@@ -229,8 +229,8 @@ app.get("/", (req, res) => {
   res.send("finding roomMate in the server");
 });
 
-app.listen(port, () => {
-    console.log("server is running on port ", port)
-})
+// app.listen(port, () => {
+//     console.log("server is running on port ", port)
+// })
 
 module.exports = app;
